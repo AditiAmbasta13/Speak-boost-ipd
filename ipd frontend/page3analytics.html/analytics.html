@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeakBoost Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        .container {
+            display: flex;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: white;
+            padding: 20px;
+            height: 100vh;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .logo span {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .menu-item {
+            padding: 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+        .menu-item.active {
+            background-color: #ff4d4f;
+            color: white;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .search-bar {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+        .tab:hover {
+            background-color: #f0f0f0;
+        }
+        .charts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .chart-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .chart-container h3 {
+            margin-top: 0;
+        }
+        .analysis-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .analysis-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .analysis-item .bar {
+            flex-grow: 1;
+            height: 10px;
+            margin: 0 10px;
+            border-radius: 5px;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <img src="/api/placeholder/30/30" alt="SpeakBoost Logo">
+                <span>SpeakBoost</span>
+            </div>
+            <div class="menu-item active">Dashboard</div>
+            <div class="menu-item">Home</div>
+            <div class="menu-item">Record</div>
+            <div class="menu-item">Analysis</div>
+            <div class="menu-item">Exercises</div>
+            <div class="menu-item">Practice</div>
+        </div>
+        <div class="main-content">
+            <div class="search-bar">Search here...</div>
+            <div class="tabs">
+                <div class="tab">Filler Words</div>
+                <div class="tab">Words per Minute</div>
+                <div class="tab">Pace/Tone</div>
+                <div class="tab">Behaviour</div>
+                <div class="tab">Sentiment Analysis</div>
+                <div class="tab">Grammar</div>
+            </div>
+            <div class="charts">
+                <div class="chart-container" style="width: 60%;">
+                    <h3>Weekly Performance</h3>
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+                <div class="chart-container" style="width: 35%;">
+                    <h3>Overall Statistics</h3>
+                    <canvas id="overallChart"></canvas>
+                </div>
+            </div>
+            <div class="analysis-container">
+                <h3>Analysis</h3>
+                <div class="analysis-item">
+                    <span>Words per minute</span>
+                    <div class="bar" style="background-color: #36a2eb; width: 60%;"></div>
+                    <span>60%</span>
+                </div>
+                <div class="analysis-item">
+                    <span>Emotional Analysis</span>
+                    <div class="bar" style="background-color: #ff6384; width: 75%;"></div>
+                    <span>75%</span>
+                </div>
+                <div class="analysis-item">
+                    <span>Behaviour</span>
+                    <div class="bar" style="background-color: #9966ff; width: 45%;"></div>
+                    <span>45%</span>
+                </div>
+                <div class="analysis-item">
+                    <span>Statistics</span>
+                    <div class="bar" style="background-color: #ffcd56; width: 80%;"></div>
+                    <span>80%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="user-avatar"></div>
+
+    <script>
+        // Weekly Performance Chart
+        const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+        new Chart(weeklyCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                datasets: [{
+                    label: 'Performance 1',
+                    data: [12, 19, 3, 17, 10, 15, 20],
+                    backgroundColor: '#36a2eb'
+                }, {
+                    label: 'Performance 2',
+                    data: [10, 11, 25, 8, 12, 14, 12],
+                    backgroundColor: '#ff6384'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Overall Statistics Chart
+        const overallCtx = document.getElementById('overallChart').getContext('2d');
+        new Chart(overallCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Statistic 1',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderColor: '#36a2eb',
+                    fill: true,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)'
+                }, {
+                    label: 'Statistic 2',
+                    data: [5, 10, 15, 10, 15, 20],
+                    borderColor: '#ff6384',
+                    fill: true,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Add hover effect to menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('mouseover', () => {
+                if (!item.classList.contains('active')) {
+                    item.style.backgroundColor = '#f0f0f0';
+                }
+            });
+            item.addEventListener('mouseout', () => {
+                if (!item.classList.contains('active')) {
+                    item.style.backgroundColor = '';
+                }
+            });
+        });
+
+        // Add hover effect to tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('mouseover', () => {
+                tab.style.backgroundColor = '#f0f0f0';
+            });
+            tab.addEventListener('mouseout', () => {
+                tab.style.backgroundColor = '';
+            });
+        });
+    </script>
+</body>
+</html>

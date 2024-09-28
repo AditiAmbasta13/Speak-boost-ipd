@@ -1,0 +1,147 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+    color: #333;
+}
+
+/* Header styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px; /* Add padding to the left and right for spacing */
+    background-color: #fff;
+}
+
+.logo h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    margin-left: 50px;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.auth-buttons .sign-in {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #333;
+}
+
+.auth-buttons .sign-up {
+    padding: 10px 20px;
+    background-color: #FF5B5F;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    border: 1px solid #FF5B5F;
+    transition: background-color 0.3s ease;
+}
+
+.auth-buttons .sign-up:hover {
+    background-color: white;
+    color: #FF5B5F;
+}
+
+/* Main Section */
+.container {
+    text-align: center;
+    margin: 50px auto;
+    max-width: 600px;
+}
+
+h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.highlight {
+    color: #FF5B5F;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.option-button {
+    padding: 15px 30px;
+    font-size: 16px;
+    color: #333;
+    border: 2px solid #FF5B5F;
+    background-color: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 100%;
+    max-width: 400px;
+}
+
+.option-button:hover {
+    background-color: #FF5B5F;
+    color: white;
+}
+
+/* Navigation */
+.navigation {
+    margin-top: 50px;
+}
+
+.nav-button {
+    padding: 15px;
+    font-size: 24px;
+    border: none;
+    background-color: #FF5B5F;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 10px;
+}
+
+.nav-button:hover {
+    background-color: #ff4045;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .option-button {
+        max-width: 100%;
+    }
+}
