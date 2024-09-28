@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Audio Analysis</h1>
+    <button id="startButton">Start Recording</button>
+    <button id="stopButton" disabled>Stop Recording</button>
+    
+    <p id="recordingStatus">Not recording</p>
+    
+    <h2>Analysis Results:</h2>
+    <div id="analysisResults"></div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Debugging code
+        console.log("HTML loaded");
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("DOM fully loaded");
+            console.log("Start button:", document.getElementById('startButton'));
+            console.log("Stop button:", document.getElementById('stopButton'));
+        });
+    </script>
+</body>
+</html>
