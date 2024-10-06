@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>SpeakBoost Dashboard</title>
+    <style>
+        body {
+            font-family: Rubik, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #fff5f5;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #fff5f5;
+            padding: 20px;
+            height: 100vh;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .logo span {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .menu {
+            list-style-type: none;
+            padding: 0;
+        }
+        .menu li {
+            margin-bottom: 10px;
+        }
+        .menu li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .menu li a:hover, .menu li.active a {
+            background-color: #ff4f4f;
+            color: white;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .record-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        .control-btn {
+            background-color: #ff4f4f;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .control-btn:hover {
+            background-color: #e63939;
+            transform: scale(1.1);
+        }
+        .upload-btn {
+            background-color: white;
+            border: 2px solid #ff4f4f;
+            color: #ff4f4f;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .upload-btn:hover {
+            background-color: #ff4f4f;
+            color: white;
+        }
+        .upload-btn img {
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+        }
+        .record-btn {
+            background-color: #ff4f4f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .record-btn:hover {
+            background-color: #e63939;
+            transform: scale(1.05);
+        }
+        .transcript {
+            margin-top: 20px;
+        }
+        .analyse-btn {
+            background-color: #ff4f4f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        .analyse-btn:hover {
+            background-color: #e63939;
+            transform: scale(1.05);
+        }
+        .user-avatar {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="../static/images/logo.png" alt="SpeakBoost Logo">
+            <span>SpeakBoost</span>
+        </div>
+        <ul class="menu">
+            <li class="active"><a href="#">Dashboard</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Record</a></li>
+            <li><a href="#">Analysis</a></li>
+            <li><a href="#">Exercises</a></li>
+            <li><a href="#">Profile</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="card">
+            <h2>Speech Analysis</h2>
+            <div class="record-area">
+                <div class="avatar"></div>
+                <div class="controls">
+                    <label class="upload-btn">
+                        Upload Audio
+                        <input type="file" id="audioFile" accept="audio/*" style="display:none">
+                        <!-- <img src="../../images/upload-icon.png" alt="Upload Icon"> -->
+                    </label>
+                    <button class="record-btn" id="startRecording">Start Recording</button>
+                    <button class="record-btn" id="stopRecording" disabled>Stop Recording</button>
+                </div>
+            </div>
+            <div class="transcript" id="transcriptContainer"></div>
+            <button class="analyse-btn" id="analyzeBtn" disabled>Analyze</button>
+        </div>
+        <div id="resultContainer" style="display:none;">
+            <h3>Analysis Results:</h3>
+            <div id="results"></div>
+        </div>
+    </div>
+    <div class="user-avatar"></div>
+
+    <script>
+        const transcriptContainer = document.getElementById('transcriptContainer');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultsDiv = document.getElementById('results');
+        let audioBlob;
+
+        document.getElementById('audioFile').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                audioBlob = file;
+                transcriptContainer.innerText = 'Audio file uploaded. Click Analyze to process.';
+                analyzeBtn.disabled = false;
+            }
+        });
+
+        let mediaRecorder;
+        let audioChunks = [];
+
+        document.getElementById('startRecording').addEventListener('click', async () => {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+
+            mediaRecorder.addEventListener('dataavailable', event => {
+                audioChunks.push(event.data);
+            });
+
+            mediaRecorder.addEventListener('stop', () => {
+                audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                transcriptContainer.innerText = 'Recording stopped. Click Analyze to process.';
+                analyzeBtn.disabled = false;
+            });
+
+            mediaRecorder.start();
+            document.getElementById('startRecording').disabled = true;
+            document.getElementById('stopRecording').disabled = false;
+        });
+
+        document.getElementById('stopRecording').addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                document.getElementById('startRecording').disabled = false;
+                document.getElementById('stopRecording').disabled = true;
+            }
+        });
+
+        analyzeBtn.addEventListener('click', async () => {
+            if (!audioBlob) {
+                alert('Please upload an audio file or record audio first.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', audioBlob, 'audio.wav');
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                showResults(data);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred during analysis. Please try again.');
+            }
+        });
+
+        function showResults(data) {
+            resultsDiv.innerHTML = `
+                <p><strong>Recognized Text:</strong> ${data.text}</p>
+                <p><strong>Word Count:</strong> ${data.word_count}</p>
+                <p><strong>Filler Words Count:</strong> ${data.filler_count} (${data.filler_words.join(', ')})</p>
+                <p><strong>Speech Pace:</strong> ${data.pace.toFixed(2)} words per minute</p>
+                <p><strong>Sentiment Score:</strong> ${data.sentiment_score.toFixed(2)}</p>
+                <p><strong>Grammar Errors:</strong> ${data.grammar_errors}</p>
+                <p><strong>Grammar Feedback:</strong> ${data.grammar_feedback.join(', ')}</p>
+                <p><strong>Corrected Text:</strong> ${data.corrected_text}</p>
+                <h4>Suggestions for Improvement:</h4>
+                <ul>
+                    ${data.suggestions.map(suggestion => `<li>${suggestion}</li>`).join('')}
+                </ul>
+            `;
+            resultContainer.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
