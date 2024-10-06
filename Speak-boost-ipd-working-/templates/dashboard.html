@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeakBoost - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Rubik, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #fff5f5;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #fff5f5;
+            padding: 20px;
+            height: 100vh;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .logo span {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .menu {
+            list-style-type: none;
+            padding: 0;
+        }
+        .menu li {
+            margin-bottom: 10px;
+        }
+        .menu li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .menu li a:hover, .menu li.active a {
+            background-color: #ff4f4f;
+            color: white;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .upload-btn {
+            background-color: #ff4f4f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .upload-btn:hover {
+            background-color: #e63939;
+            transform: scale(1.05);
+        }
+        .record-btn {
+            background-color: #ff4f4f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        .record-btn:hover {
+            background-color: #e63939;
+            transform: scale(1.05);
+        }
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .chart-item {
+            width: 48%;
+            margin-bottom: 20px;
+        }
+        #transcript, #wordCount, #fillerCount, #grammaticalErrors, #feedback {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="../static/images/logo.png" alt="SpeakBoost Logo">
+            <span>SpeakBoost</span>
+        </div>
+        <ul class="menu">
+            <li class="active"><a href="#">Dashboard</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="#">Record</a></li>
+            <li><a href="#">Analysis</a></li>
+            <li><a href="#">Exercises</a></li>
+            <li><a href="#">Profile</a></li>
+        </ul>
+    </div>
+    <main class="main-content">
+        <section id="analysis">
+            <h2>Speech Analysis Dashboard</h2>
+            <div class="card">
+                <h3>Upload Audio File</h3>
+                <input type="file" id="audioUpload" accept="audio/*">
+                <button class="upload-btn" onclick="uploadAudio()">Analyze</button>
+    
+                <h3>Real-Time Audio Analysis</h3>
+                <button class="record-btn" onclick="startRecording()">Start Recording</button>
+                <button class="record-btn" onclick="stopRecording()">Stop Recording</button>
+                <div id="recordingStatus"></div>
+    
+                <div id="transcript"></div>
+                <div id="wordCount"></div>
+                <div id="fillerCount"></div>
+                <div id="grammaticalErrors"></div>
+                <div id="feedback"></div>
+    
+                <div class="chart-container">
+                    <div class="chart-item">
+                        <canvas id="wordsPerMinuteChart"></canvas>
+                    </div>
+                    <div class="chart-item">
+                        <canvas id="toneChart"></canvas>
+                    </div>
+                    <div class="chart-item">
+                        <canvas id="pitchChart"></canvas>
+                    </div>
+                    <div class="chart-item">
+                        <canvas id="paceChart"></canvas>
+                    </div>
+                    <div class="chart-item">
+                        <canvas id="sentimentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
