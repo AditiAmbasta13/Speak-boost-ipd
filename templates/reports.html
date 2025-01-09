@@ -235,7 +235,7 @@
                 {% for report in reports %}
                 <div class="report-card">
                     <div class="report-header">
-                        <h3>Report from {{ report.timestamp }}</h3>
+                        <h3>Report from {{ report.formatted_timestamp }}</h3>
                     </div>
                     <!-- <div class="report-charts">
                         <div class="chart-container">
@@ -268,12 +268,16 @@
                             <div class="metric-value">{{ report.sentiment_compound|round(2) }}</div>
                         </div>
                         <div class="metric-item">
-                            <div class="metric-label">Energy</div>
-                            <div class="metric-value">{{ report.audio_energy|round(2) }}</div>
+                            <div class="metric-label">Speaking clarity</div>
+                            <div class="metric-value">{{ report.speaking_clarity|round(2) }}</div>
                         </div>
                         <div class="metric-item">
                             <div class="metric-label">Pitch</div>
-                            <div class="metric-value">{{ report.audio_pitch|round(2) }}%</div>
+                            <div class="metric-value">{{ report.speaking_confidence|round(2) }}%</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Speaking engagement</div>
+                            <div class="metric-value">{{ report.speaking_engagement|round(2) }}%</div>
                         </div>
                     </div>
                     <div id="transcript" class="transcript-section">{{ report.transcript }}</div>

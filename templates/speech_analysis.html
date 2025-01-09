@@ -389,34 +389,44 @@
         }
 
         .meeting-container {
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
             padding: 20px;
             background-color: var(--bg-secondary);
-            border-radius: 15px;
         }
 
         .video-grid {
             display: flex;
+            justify-content: space-between;
+            height: 50%;
             gap: 20px;
-            height: 300px;
+            margin-bottom: 20px;
         }
 
         .participant-box {
             flex: 1;
-            background-color: rgba(0,0,0,0.2);
+            background-color: var(--bg-secondary);
             border-radius: 15px;
+            display: flex;
+            flex-direction: column;
             position: relative;
             overflow: hidden;
         }
 
         .video-container {
-            height: 100%;
+            flex-grow: 1;
+            background-color: rgba(0,0,0,0.3);
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+        }
+
+        .video-container video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
         }
 
         .video-container img {
@@ -433,9 +443,6 @@
             font-weight: bold;
             font-size: 1.2rem;
             text-transform: uppercase;
-            background-color: rgba(0,0,0,0.5);
-            padding: 5px 15px;
-            border-radius: 15px;
         }
 
         .camera-controls {
@@ -452,20 +459,256 @@
             color: white;
             border: none;
             padding: 10px;
-            border-radius: 50%;
+            border-radius: 20%;
             width: 40px;
-            height: 40px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 1rem;
         }
 
         .camera-btn:hover {
             background-color: var(--hover-color);
-            transform: scale(1.1);
+        }
+
+        .scenario-selector {
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .scenario-card {
+            background-color: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scenario-card:hover {
+            background-color: rgba(255,79,79,0.1);
+        }
+
+        .scenario-card.selected {
+            background-color: rgba(255,79,79,0.2);
+            border: 2px solid var(--accent-color);
+        }
+
+        .analysis-container {
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background-color: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            color: var(--accent-color);
+            margin: 10px 0;
+        }
+
+        .feedback-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+
+        .transcript-section {
+            margin-top: 20px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .ai-label {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .start-session-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 79, 79, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .start-session-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 79, 79, 0.4);
+        }
+
+        .processing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .processing-content {
+            text-align: center;
+            color: white;
+        }
+
+        .processing-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--accent-color);
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .metrics-detail {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metric-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .metric-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .metric-list li {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 5px;
+        }
+
+        .metric-highlight {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .grammar-container {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .grammar-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+
+        .grammar-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .grammar-issues, .grammar-suggestions {
+            margin-top: 15px;
+        }
+
+        .grammar-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .grammar-list li {
+            margin: 8px 0;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .grammar-list li i {
+            margin-right: 8px;
+            color: var(--accent-color);
+            margin-top: 3px;
+        }
+
+        .grammar-list li.error {
+            border-left: 3px solid #ff4f4f;
+        }
+
+        .grammar-list li.suggestion {
+            border-left: 3px solid #4CAF50;
         }
     </style>
 </head>
 <body>
+    <!-- sidebar -->
     <div class="sidebar">
         <div class="logo">
             <img src="../static/images/logo.png" alt="SpeakBoost Logo">
@@ -498,593 +741,343 @@
             <img src="{{ avatar_url }}" alt="User Avatar" class="user-avatar">
             <span class="user-name">{{ username }}</span>
         </div>
+        <!-- end of sidebar -->
     </div>
     <!-- <div class="analysis-container">
         <h1>Speech Analysis</h1> -->
 
-        <main class="main-content analysis-container">
-            <h2 class="headbar">Speech Analysis</h2>
+        <main class="main-content">
+            <h2 class="headbar">Real-Time Communication Practice</h2>
+            
+            <div class="processing-overlay">
+                <div class="processing-content">
+                    <div class="processing-spinner"></div>
+                    <h2 id="processing-status">Processing your speech...</h2>
+                </div>
+            </div>
+
             <div class="meeting-container">
+                <!-- Scenario Selection -->
+                <div class="scenario-selector">
+                    <h3>Select Practice Scenario</h3>
+                    <div class="scenario-grid" id="scenarioGrid">
+                        <!-- Scenarios will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Video Grid -->
                 <div class="video-grid">
                     <div class="participant-box">
                         <div class="ai-label">{{ username }}</div>
-                        <div class="video-container">
+                        <div class="video-container" id="user-video-container">
                             <img src="{{ avatar_url }}" alt="User Avatar" id="user-avatar">
+                            <video id="user-video" style="display:none;" autoplay playsinline></video>
                         </div>
                         <div class="camera-controls">
-                            <!-- <button class="camera-btn" onclick="toggleCamera()" id="camera-toggle">
-                                <i class="fas fa-video"></i>
-                            </button> -->
-                            <button id="recordButton" class="record-btn" disabled>Select a Scenario to Start</button>
-                            <!-- <button class="camera-btn" id="toggleMic">
+                            <button class="camera-btn" onclick="toggleCamera()" id="camera-toggle">
+                                <i class="fas fa-video-slash"></i>
+                            </button>
+                            <button class="camera-btn" onclick="startRecording()" id="record-btn">
                                 <i class="fas fa-microphone"></i>
                             </button>
-                            <button class="camera-btn" id="startRecording">
-                                <i class="fas fa-play"></i>
-                            </button> -->
+                            <button class="camera-btn" onclick="stopRecording()" id="stop-btn" disabled>
+                                <i class="fas fa-stop"></i>
+                            </button>
                         </div>
                     </div>
                     
                     <div class="participant-box">
-                        <div class="ai-label">AI Assistant</div>
+                        <div class="ai-label">AI Coach</div>
                         <div class="video-container">
                             <img src="../static/images/avatar.png" alt="AI Avatar">
                         </div>
-                        <div class="camera-controls">
-                        <button id="startSessionButton" class="record-btn">Start Session</button>
-                    </div>
                     </div>
                 </div>
-        
-        <div class="scenario-selector">
-            <h3>Select Your Scenario</h3>
-            <div id="scenarioCards" class="scenarios-grid"></div>
-        </div>
 
-        <div id="loading" class="loading">Processing your speech...</div>
-        
-        <div id="results" class="results-section">
-            <h3>Transcription</h3>
-            <div id="transcription" class="transcription"></div>
+                <!-- Analysis Results -->
+                <div class="analysis-container" id="analysisResults" style="display: none;">
+                    <h3>Analysis Results</h3>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h4>Words Per Minute</h4>
+                            <div class="metric-value" id="wpmValue">0</div>
+                            <div class="metric-detail" id="durationValue">Duration: 0s</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Speaking Clarity</h4>
+                            <div class="metric-value" id="clarityValue">0</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Confidence Score</h4>
+                            <div class="metric-value" id="confidenceValue">0</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Professionalism</h4>
+                            <div class="metric-value" id="professionalismValue">0</div>
+                        </div>
+                    </div>
 
-            <h3>Scenario-Specific Feedback</h3>
-            <div id="scenarioFeedback" class="scenario-feedback"></div>
-            
-            <h3>Analysis Results</h3>
-            <!-- <div id="wordCount" class="metric">
-                <span class="metric-label">Word Count:</span>
-                <span class="metric-value"></span>
-            </div> -->
-            <div id="wpm" class="metric">
-                <span class="metric-label">Words Per Minute:</span>
-                <span class="metric-value"></span>
-            </div>
-            <div id="fillerWords" class="metric">
-                <span class="metric-label">Filler Words:</span>
-                <span class="metric-value"></span>
-            </div>
-            <div id="sentiment" class="metric">
-                <span class="metric-label">Sentiment:</span>
-                <span class="metric-value"></span>
-            </div>
-            <!-- <div id="audioEnergy" class="metric">
-                <span class="metric-label">Voice Energy:</span>
-                <span class="metric-value"></span>
-            </div>
-            <div id="audioPitch" class="metric">
-                <span class="metric-label">Voice Pitch (Hz):</span>
-                <span class="metric-value"></span>
-            </div> -->
-            <div id="structureIssues" class="structure-issues">
-                <h3>Sentence Structure Issues</h3>
-                <div id="issuesList"></div>
+                    <div class="metrics-detail">
+                        <div class="metric-section">
+                            <h4>Strengths</h4>
+                            <ul class="metric-list" id="strengthsList"></ul>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Areas for Improvement</h4>
+                            <ul class="metric-list" id="improvementList"></ul>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Voice Coaching Tips</h4>
+                            <ul class="metric-list" id="coachingTips"></ul>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Recommended Phrases</h4>
+                            <ul class="metric-list" id="recommendedPhrases"></ul>
+                        </div>
+                    </div>
+
+                    <div class="feedback-section">
+                        <h4>AI Coach Feedback</h4>
+                        <p id="coachFeedback"></p>
+                    </div>
+
+                    <div class="transcript-section">
+                        <h4>Transcript</h4>
+                        <p id="transcript"></p>
+                    </div>
+
+                    <div class="metrics-detail">
+                        <div class="metric-section">
+                            <h4>Grammar Analysis</h4>
+                            <div class="grammar-container">
+                                <div class="grammar-stats">
+                                    <div class="grammar-stat">
+                                        <span class="stat-label">Grammar Score:</span>
+                                        <span class="stat-value" id="grammarScore">0/10</span>
+                                    </div>
+                                    <div class="grammar-stat">
+                                        <span class="stat-label">Issues Found:</span>
+                                        <span class="stat-value" id="issuesCount">0</span>
+                                    </div>
+                                </div>
+                                <div class="grammar-issues">
+                                    <h5>Identified Issues</h5>
+                                    <ul class="grammar-list" id="grammarIssuesList"></ul>
+                                </div>
+                                <div class="grammar-suggestions">
+                                    <h5>Corrections</h5>
+                                    <ul class="grammar-list" id="grammarSuggestionsList"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="tts-controls">
-                <h3>Text-to-Speech Controls</h3>
-                <div class="slider-container">
-                    <label for="speechRate">Speed:</label>
-                    <input type="range" id="speechRate" min="0.5" max="2" step="0.1" value="1">
-                    <span id="rateValue">1.0</span>
-                </div>
-                <div class="slider-container">
-                    <label for="speechPitch">Pitch:</label>
-                    <input type="range" id="speechPitch" min="0.5" max="2" step="0.1" value="1">
-                    <span id="pitchValue">1.0</span>
-                </div>
-                <div style="margin-top: 10px;">
-                    <button id="playButton" class="tts-button play">Play Results</button>
-                    <button id="pauseButton" class="tts-button pause">Pause</button>
-                    <button id="stopButton" class="tts-button stop">Stop</button>
-                </div>
-            </div>
-        </div>
-    </main>
+            <button class="start-session-btn" onclick="startSession()">
+                <i class="fas fa-play"></i> Start Session
+            </button>
+        </main>
+    </div>
 
     <script>
-        let videoStream = null;
-
-function toggleCamera() {
-    const videoContainer = document.getElementById('user-video-container');
-    const userAvatar = document.getElementById('user-avatar');
-    const userVideo = document.getElementById('user-video');
-    const cameraToggleBtn = document.getElementById('camera-toggle');
-
-    if (!videoStream) {
-        // Turn on camera
-        navigator.mediaDevices.getUserMedia({ 
-            video: true, 
-            audio: false 
-        })
-        .then(stream => {
-            videoStream = stream;
-            userVideo.srcObject = stream;
-            userVideo.style.display = 'block';
-            userAvatar.style.display = 'none';
-            
-            // Change button icon
-            cameraToggleBtn.innerHTML = '<i class="fas fa-video"></i>';
-        })
-        .catch(error => {
-            console.error('Error accessing camera:', error);
-            alert('Could not access camera. Please check permissions.');
-        });
-    } else {
-        // Turn off camera
-        videoStream.getTracks().forEach(track => track.stop());
-        videoStream = null;
-        userVideo.style.display = 'none';
-        userAvatar.style.display = 'block';
-        
-        // Change button icon back
-        cameraToggleBtn.innerHTML = '<i class="fas fa-video-slash"></i>';
-    }
-}
-        const scenarios = [
-            {
-                id: 'interview',
-                title: 'Job Interview',
-                description: 'Practice for a job interview with clear, confident responses',
-                targetMetrics: {
-                    wpmRange: [120, 150],
-                    maxFillerPercentage: 0.03,
-                    tone: 'professional',
-                    duration: '1-2 minutes'
-                }
-            },
-            {
-                id: 'presentation',
-                title: 'Professional Presentation',
-                description: 'Deliver a clear, engaging presentation to an audience',
-                targetMetrics: {
-                    wpmRange: [130, 160],
-                    maxFillerPercentage: 0.02,
-                    tone: 'confident',
-                    duration: '2-5 minutes'
-                }
-            },
-            {
-                id: 'conversation',
-                title: 'Casual Conversation',
-                description: 'Practice natural, flowing conversation skills',
-                targetMetrics: {
-                    wpmRange: [140, 170],
-                    maxFillerPercentage: 0.05,
-                    tone: 'friendly',
-                    duration: '1-3 minutes'
-                }
-            },
-            {
-                id: 'story',
-                title: 'Storytelling',
-                description: 'Tell an engaging story with proper pacing and emotion',
-                targetMetrics: {
-                    wpmRange: [110, 140],
-                    maxFillerPercentage: 0.03,
-                    tone: 'engaging',
-                    duration: '2-4 minutes'
-                }
-            }
-        ];
-
-        let selectedScenario = null;
         let mediaRecorder;
         let audioChunks = [];
+        let selectedScenario = null;
         let isRecording = false;
-        let sessionStarted = false;
-        
-        const scenarioCards = document.getElementById('scenarioCards');
-        const recordButton = document.getElementById('recordButton');
-        const startSessionButton = document.getElementById('startSessionButton');
-        const loading = document.getElementById('loading');
-        const results = document.getElementById('results');
 
-        // Add event listener for start session button
-        startSessionButton.addEventListener('click', () => {
-            sessionStarted = true;
-            startSessionButton.style.display = 'none';
-            
-            // Create a synthesized speech message
-            const speechMessage = new SpeechSynthesisUtterance("Please select a scenario to begin your practice session.");
-            window.speechSynthesis.speak(speechMessage);
-            
-            // Highlight the scenario section
-            const scenarioSelector = document.querySelector('.scenario-selector');
-            scenarioSelector.style.animation = 'pulse 2s';
-            scenarioSelector.style.border = '2px solid var(--accent-color)';
-            
-            // Add pulse animation style if not already present
-            // if (!document.querySelector('#pulseAnimation')) {
-            //     const style = document.createElement('style');
-            //     style.id = 'pulseAnimation';
-            //     style.textContent = `
-            //         @keyframes pulse {
-            //             0% { box-shadow: 0 0 0 0 rgba(255, 79, 79, 0.4); }
-            //             70% { box-shadow: 0 0 0 10px rgba(255, 79, 79, 0); }
-            //             100% { box-shadow: 0 0 0 0 rgba(255, 79, 79, 0); }
-            //         }
-            //     `;
-            //     document.head.appendChild(style);
-            // }
+        // Load scenarios on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/get_scenarios');
+                const scenarios = await response.json();
+                populateScenarios(scenarios);
+            } catch (error) {
+                console.error('Error loading scenarios:', error);
+            }
         });
 
-        // Modify the scenario card click handler
-        function createScenarioCards() {
-            scenarios.forEach(scenario => {
+        function populateScenarios(scenarios) {
+            const grid = document.getElementById('scenarioGrid');
+            Object.entries(scenarios).forEach(([id, scenario]) => {
                 const card = document.createElement('div');
                 card.className = 'scenario-card';
                 card.innerHTML = `
-                    <div class="scenario-title">${scenario.title}</div>
-                    <div class="scenario-description">${scenario.description}</div>
-                    <div class="target-metrics">
-                        <div>Target Pace: ${scenario.targetMetrics.wpmRange[0]}-${scenario.targetMetrics.wpmRange[1]} WPM</div>
-                        <div>Maximum Filler Words: ${scenario.targetMetrics.maxFillerPercentage * 100}%</div>
-                        <div>Target Tone: ${scenario.targetMetrics.tone}</div>
-                        <div>Suggested Duration: ${scenario.targetMetrics.duration}</div>
-                    </div>
+                    <h4>${scenario.title}</h4>
+                    <p>${scenario.description}</p>
                 `;
-                
-                card.addEventListener('click', () => {
-                    if (!sessionStarted) {
-                        const speechMessage = new SpeechSynthesisUtterance("Please click Start Session first to begin.");
-                        window.speechSynthesis.speak(speechMessage);
-                        return;
-                    }
-                    
-                    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
-                    card.classList.add('selected');
-                    selectedScenario = scenario;
-                    recordButton.disabled = false;
-                    recordButton.textContent = 'Start Recording';
-                    
-                    // Remove the highlight from scenario selector
-                    const scenarioSelector = document.querySelector('.scenario-selector');
-                    scenarioSelector.style.animation = '';
-                    scenarioSelector.style.border = 'none';
-                });
-                
-                scenarioCards.appendChild(card);
+                card.onclick = () => selectScenario(id, scenario);
+                grid.appendChild(card);
             });
         }
 
-        // Initialize the scenario cards
-        createScenarioCards();
+        function selectScenario(id, scenario) {
+            document.querySelectorAll('.scenario-card').forEach(card => 
+                card.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            selectedScenario = { id, ...scenario };
+        }
 
-        // Speech Synthesis Manager
-        class SpeechSynthesisManager {
-            constructor() {
-                this.synth = window.speechSynthesis;
-                this.utterance = null;
-                this.isPlaying = false;
-                
-                this.rateControl = document.getElementById('speechRate');
-                this.pitchControl = document.getElementById('speechPitch');
-                this.rateValue = document.getElementById('rateValue');
-                this.pitchValue = document.getElementById('pitchValue');
-                
-                this.playButton = document.getElementById('playButton');
-                this.pauseButton = document.getElementById('pauseButton');
-                this.stopButton = document.getElementById('stopButton');
-                
-                this.bindEventListeners();
+        async function startRecording() {
+            if (!selectedScenario) {
+                alert('Please select a scenario first');
+                return;
             }
-            
-            bindEventListeners() {
-                this.rateControl.addEventListener('input', () => {
-                    this.rateValue.textContent = this.rateControl.value;
-                    if (this.utterance) {
-                        this.utterance.rate = parseFloat(this.rateControl.value);
-                    }
-                });
-                
-                this.pitchControl.addEventListener('input', () => {
-                    this.pitchValue.textContent = this.pitchControl.value;
-                    if (this.utterance) {
-                        this.utterance.pitch = parseFloat(this.pitchControl.value);
-                    }
-                });
-                
-                this.playButton.addEventListener('click', () => this.play());
-                this.pauseButton.addEventListener('click', () => this.pause());
-                this.stopButton.addEventListener('click', () => this.stop());
-            }
-            
-            createUtterance(text) {
-                this.utterance = new SpeechSynthesisUtterance(text);
-                this.utterance.rate = parseFloat(this.rateControl.value);
-                this.utterance.pitch = parseFloat(this.pitchControl.value);
-                
-                this.utterance.onend = () => {
-                    this.isPlaying = false;
-                    this.playButton.textContent = 'Play Results';
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
                 };
-                
-                this.utterance.onerror = (event) => {
-                    console.error('Speech synthesis error:', event);
-                    this.isPlaying = false;
-                    this.playButton.textContent = 'Play Results';
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    await sendAudioForAnalysis(audioBlob);
                 };
-            }
-            
-            play(newText = null) {
-                if (newText) {
-                    this.stop();
-                    this.createUtterance(newText);
-                }
-                
-                if (!this.utterance) {
-                    const results = getCurrentResults();
-                    if (results) {
-                        this.createUtterance(results);
-                    } else {
-                        console.warn('No text to speak');
-                        return;
-                    }
-                }
-                
-                if (this.isPlaying) {
-                    this.synth.resume();
-                } else {
-                    this.synth.speak(this.utterance);
-                }
-                
-                this.isPlaying = true;
-                this.playButton.textContent = 'Resume';
-            }
-            
-            pause() {
-                if (this.isPlaying) {
-                    this.synth.pause();
-                    this.isPlaying = false;
-                    this.playButton.textContent = 'Resume';
-                }
-            }
-            
-            stop() {
-                this.synth.cancel();
-                this.isPlaying = false;
-                this.playButton.textContent = 'Play Results';
+
+                mediaRecorder.start();
+                isRecording = true;
+                document.getElementById('record-btn').disabled = true;
+                document.getElementById('stop-btn').disabled = false;
+            } catch (error) {
+                console.error('Error starting recording:', error);
+                alert('Error accessing microphone');
             }
         }
 
-        const speechManager = new SpeechSynthesisManager();
-
-        function getCurrentResults() {
-            const transcription = document.getElementById('transcription').textContent;
-            const wpm = document.getElementById('wpm').querySelector('.metric-value').textContent;
-            const fillerWords = document.getElementById('fillerWords').querySelector('.metric-value').textContent;
-            const sentiment = document.getElementById('sentiment').querySelector('.metric-value').textContent;
-            const scenarioFeedback = document.getElementById('scenarioFeedback').textContent;
-            // const energy = document.getElementById('audioEnergy').querySelector('.metric-value').textContent;
-            // const pitch = document.getElementById('audioPitch').querySelector('.metric-value').textContent;
-
-            return `
-                Here are your speech analysis results for the ${selectedScenario.title} scenario.
-                ${scenarioFeedback}
-                Your transcription: ${transcription}
-                Speaking rate: ${wpm}
-                Filler words: ${fillerWords}
-                Overall sentiment: ${sentiment}
-            `;
-        }
-
-        recordButton.addEventListener('click', toggleRecording);
-
-        async function toggleRecording() {
-            if (!isRecording) {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    startRecording(stream);
-                } catch (err) {
-                    console.error('Error accessing microphone:', err);
-                    alert('Error accessing microphone. Please ensure you have granted microphone permissions.');
-                }
-            } else {
-                stopRecording();
-            }
-        }
-        
-        function startRecording(stream) {
-            audioChunks = [];
-            mediaRecorder = new MediaRecorder(stream);
-            
-            mediaRecorder.ondataavailable = (event) => {
-                audioChunks.push(event.data);
-            };
-            
-            mediaRecorder.onstop = async () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                await sendAudioForAnalysis(audioBlob);
-            };
-            
-            mediaRecorder.start();
-            isRecording = true;
-            recordButton.textContent = 'Stop Recording';
-            recordButton.classList.add('recording');
-            
-            // Set recording time limit based on scenario duration
-            const durationMatch = selectedScenario.targetMetrics.duration.match(/(\d+)-(\d+)/);
-            const maxMinutes = parseInt(durationMatch[2]);
-            setTimeout(() => {
-                if (isRecording) {
-                    stopRecording();
-                }
-            }, maxMinutes * 60 * 1000);
-        }
-        
         function stopRecording() {
-            mediaRecorder.stop();
-            mediaRecorder.stream.getTracks().forEach(track => track.stop());
-            isRecording = false;
-            recordButton.textContent = 'Start Recording';
-            recordButton.classList.remove('recording');
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                isRecording = false;
+                document.getElementById('record-btn').disabled = false;
+                document.getElementById('stop-btn').disabled = true;
+            }
         }
-        
+
         async function sendAudioForAnalysis(audioBlob) {
-            loading.style.display = 'block';
-            results.style.display = 'none';
+            showProcessing(true);
+            document.getElementById('processing-status').textContent = 'Processing your speech...';
             
             const formData = new FormData();
-            formData.append('file', audioBlob, 'recording.wav');
-            formData.append('scenario', JSON.stringify(selectedScenario));
-            
+            formData.append('audio', audioBlob);
+            formData.append('scenario', selectedScenario.id);
+
             try {
-                const response = await fetch('/process_speech_analysis', {
+                const response = await fetch('/analyze_speech', {
                     method: 'POST',
                     body: formData
                 });
-                
-                const data = await response.json();
-                displayResults(data);
+
+                const results = await response.json();
+                displayResults(results);
             } catch (error) {
-                console.error('Error analyzing audio:', error);
-                alert('Error analyzing audio. Please try again.');
-            } finally {
-                loading.style.display = 'none';
+                console.error('Error analyzing speech:', error);
+                showProcessing(false);
+                alert('Error analyzing speech');
             }
         }
-        
-        function generateScenarioFeedback(data, scenario) {
-            const wpm = data.words_per_minute;
-            const fillerPercentage = data.filler_percentage || 0;
-            const sentiment = data.sentiment.compound || 0;
 
-            let feedback = `<h3>${scenario.title} Feedback:</h3><ul>`;
-
-            // Pace feedback
-            if (wpm < scenario.targetMetrics.wpmRange[0]) {
-                feedback += `<li>Your pace (${wpm.toFixed(1)} WPM) is slower than recommended for ${scenario.title}. Try speaking slightly faster.</li>`;
-            } else if (wpm > scenario.targetMetrics.wpmRange[1]) {
-                feedback += `<li>Your pace (${wpm.toFixed(1)} WPM) is faster than ideal for ${scenario.title}. Try slowing down slightly.</li>`;
-            } else {
-                feedback += `<li>Great job! Your speaking pace is perfect for ${scenario.title}.</li>`;
-            }
-
-            // Filler words feedback
-            if (fillerPercentage > scenario.targetMetrics.maxFillerPercentage) {
-                feedback += `<li>Try to reduce filler words (currently ${(fillerPercentage * 100).toFixed(1)}%). Focus on pausing instead of using filler words.</li>`;
-            } else {
-                feedback += `<li>Excellent control of filler words!</li>`;
-            }
-
-            // Scenario-specific feedback
-            switch (scenario.id) {
-                case 'interview':
-                    feedback += `<li>Keep responses clear and focused on demonstrating your qualifications.</li>`;
-                    if (sentiment < 0) {
-                        feedback += `<li>Try to maintain a more positive tone when discussing your experiences.</li>`;
-                    }
-                    break;
-                case 'presentation':
-                    feedback += `<li>Remember to vary your tone to maintain audience engagement.</li>`;
-                    if (data.audio_characteristics?.energy < 0.1) {
-                        feedback += `<li>Consider projecting your voice more for better audience reach.</li>`;
-                    }
-                    break;
-                case 'conversation':
-                    feedback += `<li>Natural flow and engagement level sound good.</li>`;
-                    break;
-                case 'story':
-                    feedback += `<li>Focus on building dramatic moments and maintaining listener interest.</li>`;
-                    if (Math.abs(sentiment) < 0.2) {
-                        feedback += `<li>Try to add more emotional variation to make the story more engaging.</li>`;
-                    }
-                    break;
-            }
-
-            feedback += '</ul>';
-            return feedback;
-        }
-        
-        function displayResults(data) {
-            document.getElementById('transcription').textContent = data.transcript;
-            // document.getElementById('wordCount').querySelector('.metric-value').textContent = data.word_count;
-            document.getElementById('wpm').querySelector('.metric-value').textContent = 
-                `${data.words_per_minute.toFixed(2)} WPM (${getPaceFeedback(data.words_per_minute, selectedScenario)})`;
-            document.getElementById('fillerWords').querySelector('.metric-value').textContent = 
-                `${data.filler_count || 0} (${((data.filler_percentage || 0) * 100).toFixed(2)}%)`;
-            document.getElementById('sentiment').querySelector('.metric-value').textContent = 
-                `${getSentimentLabel(data.sentiment)}`;
+        function displayResults(results) {
+            showProcessing(false);
+            document.getElementById('analysisResults').style.display = 'block';
             
-            // document.getElementById('audioEnergy').querySelector('.metric-value').textContent = 
-            //     `${(data.audio_energy * 100).toFixed(2)}% (${getEnergyLabel(data.audio_energy)})`;
-            // document.getElementById('audioPitch').querySelector('.metric-value').textContent = 
-            //     `${data.audio_pitch.toFixed(2)} (${getPitchLabel(data.audio_pitch)})`;
-            
-            const issuesList = document.getElementById('issuesList');
-            issuesList.innerHTML = '';
-            if (data.structure_issues && data.structure_issues.length > 0) {
-                data.structure_issues.forEach(issue => {
-                    const issueDiv = document.createElement('div');
-                    issueDiv.className = 'metric';
-                    issueDiv.innerHTML = `
-                        <p><strong>Context:</strong> ${issue.context}</p>
-                        <p><strong>Issue:</strong> ${issue.message}</p>
-                        <p><strong>Suggestion:</strong> ${issue.suggestions.join(', ')}</p>
-                    `;
-                    issuesList.appendChild(issueDiv);
-                });
-            } else {
-                issuesList.innerHTML = '<p>No structural issues found.</p>';
+            // Update basic metrics
+            document.getElementById('wpmValue').textContent = Math.round(results.wpm);
+            document.getElementById('durationValue').textContent = `Duration: ${results.duration.toFixed(1)}s`;
+            document.getElementById('clarityValue').textContent = results.analysis.metrics.clarity;
+            document.getElementById('confidenceValue').textContent = results.analysis.metrics.confidence;
+            document.getElementById('professionalismValue').textContent = results.analysis.metrics.professionalism;
+
+            // Update lists
+            function updateList(id, items) {
+                const list = document.getElementById(id);
+                list.innerHTML = items.map(item => `<li>${item}</li>`).join('');
             }
 
-            // Add scenario-specific feedback
-            const feedbackDiv = document.getElementById('scenarioFeedback');
-            const feedback = generateScenarioFeedback(data, selectedScenario);
-            feedbackDiv.innerHTML = feedback;
-            
-            results.style.display = 'block';
+            updateList('strengthsList', results.analysis.strengths);
+            updateList('improvementList', results.analysis.areas_for_improvement);
+            updateList('coachingTips', results.analysis.voice_coaching_tips);
+            updateList('recommendedPhrases', results.analysis.recommended_phrases);
 
-            // Automatically speak the results
-            speechManager.play(getCurrentResults());
+            document.getElementById('coachFeedback').textContent = results.voice_feedback;
+            document.getElementById('transcript').textContent = results.transcript;
+
+            // Speak the feedback
+            speak(results.voice_feedback);
+
+            // Update grammar analysis section
+            if (results.analysis.grammar) {
+                document.getElementById('grammarScore').textContent = 
+                    `${results.analysis.grammar.score}/10`;
+                document.getElementById('issuesCount').textContent = 
+                    results.analysis.grammar.issues.length;
+
+                // Display grammar issues
+                const issuesList = document.getElementById('grammarIssuesList');
+                issuesList.innerHTML = results.analysis.grammar.issues.map(issue => `
+                    <li class="error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>${issue}</span>
+                    </li>
+                `).join('');
+
+                // Display grammar suggestions
+                const suggestionsList = document.getElementById('grammarSuggestionsList');
+                suggestionsList.innerHTML = results.analysis.grammar.suggestions.map(suggestion => `
+                    <li class="suggestion">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>${suggestion}</span>
+                    </li>
+                `).join('');
+            }
         }
+
+        function toggleCamera() {
+            const video = document.getElementById('user-video');
+            const avatar = document.getElementById('user-avatar');
+            const btn = document.getElementById('camera-toggle');
+
+            if (video.style.display === 'none') {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        video.srcObject = stream;
+                        video.style.display = 'block';
+                        avatar.style.display = 'none';
+                        btn.innerHTML = '<i class="fas fa-video"></i>';
+                    })
+                    .catch(err => console.error('Error accessing camera:', err));
+            } else {
+                const stream = video.srcObject;
+                stream.getTracks().forEach(track => track.stop());
+                video.style.display = 'none';
+                avatar.style.display = 'block';
+                btn.innerHTML = '<i class="fas fa-video-slash"></i>';
+            }
+        }
+
+        // Initialize speech synthesis
+        const synth = window.speechSynthesis;
         
-        function getPaceFeedback(wpm, scenario) {
-            if (wpm < scenario.targetMetrics.wpmRange[0]) return 'Too slow for this scenario';
-            if (wpm > scenario.targetMetrics.wpmRange[1]) return 'Too fast for this scenario';
-            return 'Perfect pace for this scenario';
-        }
-        
-        function getSentimentLabel(sentiment) {
-            const compound = sentiment.compound || 0;
-            if (compound > 0.1) return 'Positive';
-            if (compound < -0.1) return 'Negative';
-            return 'Neutral';
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            synth.speak(utterance);
         }
 
-        function getEnergyLabel(energy) {
-            if (energy < 0.03) return 'Very Soft';
-            if (energy < 0.05) return 'Soft';
-            if (energy < 0.08) return 'Moderate';
-            if (energy < 0.12) return 'Energetic';
-            return 'Very Energetic';
+        async function startSession() {
+            speak("Welcome to your communication practice session. Please choose a scenario and start recording to begin.");
+            document.querySelector('.scenario-selector').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function getPitchLabel(pitch) {
-            if (pitch < 1000) return 'Low Range';
-            if (pitch < 1300) return 'Mid Range';
-            if (pitch < 1600) return 'High Range';
-            return 'Very High Range';
+        function showProcessing(show) {
+            const overlay = document.querySelector('.processing-overlay');
+            overlay.style.display = show ? 'flex' : 'none';
         }
     </script>
 </body>
