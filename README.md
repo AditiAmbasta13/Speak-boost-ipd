@@ -1,4 +1,4 @@
-# SpeakBoost 🎤✨
+# SpeakBoost 🎤✨ PPT Link: https://docs.google.com/presentation/d/1GAcjfzFaKFt1HvGbERo3vkCGe8efb0e6lrNCUKykaWo/edit?usp=sharing
 <i>AI CommuniTech</i>
 
 # 🌟 About SpeakBoost
